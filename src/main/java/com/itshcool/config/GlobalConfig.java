@@ -1,6 +1,11 @@
 package com.itshcool.config;
 
+import java.sql.Connection;
+import com.alibaba.druid.filter.stat.StatFilter;
+import com.alibaba.druid.wall.WallFilter;
 import com.itshcool.interceptor.GlobalActionInterceptor;
+import com.itshcool.model.UserInfo;
+import com.itshcool.pluigin.ScanTablePluigin;
 import com.itshcool.routes.AutoBindRoutes;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -9,9 +14,11 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
-
 
 /**
  * 全局配置
@@ -20,6 +27,7 @@ import com.jfinal.template.Engine;
  */
 public class GlobalConfig extends JFinalConfig{
 
+	private WallFilter wallFilter;
 	
 	/**
 	 * 配置Jfinal常量值
@@ -58,9 +66,26 @@ public class GlobalConfig extends JFinalConfig{
 	 */
 	@Override
 	public void configPlugin(Plugins me) {
-		
-	}
+		DruidPlugin druidPlugin = getDruidPlugin();
+		wallFilter = new WallFilter();
+		wallFilter.setDbType("mysql");
+		druidPlugin.addFilter(wallFilter);
+		druidPlugin.addFilter(new StatFilter());
+		me.add(druidPlugin);
 
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		arp.setTransactionLevel(Connection.TRANSACTION_READ_COMMITTED);
+		arp.setShowSql(PropKit.getBoolean("devMode"));
+		arp.setDevMode(PropKit.getBoolean("devMode"));
+
+		// 该插件需要在arp插件添加之前,否则扫描不到model
+		ScanTablePluigin scanTablePluigin = new ScanTablePluigin(arp, "com.itshcool.model");
+		// 设置sql模板引擎加载路径
+		scanTablePluigin.setBaseSqlTemplatePath(PathKit.getRootClassPath() + "/sql");
+		me.add(scanTablePluigin);
+		arp.addMapping("user_info", UserInfo.class);
+		me.add(arp);
+	}
 	
 	/**
 	 * 拦截器配置
@@ -80,4 +105,8 @@ public class GlobalConfig extends JFinalConfig{
 		me.add(new ContextPathHandler("contextPath"));
 	}
 
+	
+	public static DruidPlugin getDruidPlugin() {
+		return new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("userName"), PropKit.get("password").trim());
+	}
 }
