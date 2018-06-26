@@ -16,7 +16,7 @@ public class IndexController extends Controller{
 
 	@Clear
 	public void index(){
-		renderText("hello jfinal !!!");
+		render("login.html");
 	}
 	
 }

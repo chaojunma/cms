@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CMS管理系统</title>
+<link rel="stylesheet" href="/layui/css/layui.css">
+<link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body>
+
+	<div class="layui-carousel video_mask" id="login_carousel"
+		lay-anim="fade" lay-indicator="none" lay-arrow="none"
+		style="width: 100%; height: 100%;">
+		<div carousel-item="">
+			<div class="carousel_div1 layui-this"></div>
+			<div class="carousel_div2"></div>
+			<div class="carousel_div3"></div>
+		</div>
+		<div class="login layui-anim layui-anim-up">
+			<h1>CMS管理系统</h1>
+			<p></p>
+			<form class="layui-form" action="" method="post">
+				<div class="layui-form-item">
+					<input type="text" name="name" lay-verify="required"
+						placeholder="请输入账号" autocomplete="off" value=""
+						class="layui-input">
+				</div>
+				<div class="layui-form-item">
+					<input type="password" name="password" lay-verify="required"
+						placeholder="请输入密码" autocomplete="off" value=""
+						class="layui-input">
+				</div>
+
+				<button class="layui-btn login_btn" lay-submit="" lay-filter="login">登陆系统</button>
+			</form>
+		</div>
+
+		<div class="layui-carousel-ind">
+			<ul>
+				<li class="layui-this"></li>
+				<li class=""></li>
+				<li class=""></li>
+			</ul>
+		</div>
+		<button class="layui-icon layui-carousel-arrow" lay-type="sub"></button>
+		<button class="layui-icon layui-carousel-arrow" lay-type="add"></button>
+	</div>
+
+
+	<script src="/layui/layui.js"></script>
+
+	<script>
+    layui.use(['form','layer','jquery','common','carousel', 'element'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            common = layui.common,
+            carousel = layui.carousel;
+
+        /**背景图片轮播*/
+        carousel.render({
+            elem: '#login_carousel',
+            width: '100%',
+            height: '100%',
+            interval:3000,
+            arrow: 'none',
+            anim: 'fade',
+            indicator:'none'
+        });
+
+    });
+</script>
+
+</body>
+</html>
