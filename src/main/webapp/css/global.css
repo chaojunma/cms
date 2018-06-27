@@ -431,3 +431,22 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
   .admin-side-toggle ,.admin-header-item{display: none;}
   .admin-header-item-mobile{ display: block; }
 }
+
+#adminNavCard{
+	position: absolute;
+	top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+#layuiTabContent{
+	position: absolute;
+    top: 41px;
+    bottom: 26px;
+    right: 0;
+    left: 0;
+}
+#layuiTabContent > div{
+	height:100%;
+}

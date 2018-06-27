@@ -15,8 +15,9 @@
 
 <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
 <link rel="stylesheet" href="/css/global.css" media="all">
-<link rel="stylesheet"
-	href="/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
+
+
 </head>
 
 <body>
@@ -74,16 +75,16 @@
 		</div>
 		<div class="layui-body"
 			style="bottom: 0; border-left: solid 2px #1AA094;" id="admin-body">
-			<div class="layui-tab admin-nav-card layui-tab-brief"
+			<div id="adminNavCard" class="layui-tab admin-nav-card layui-tab-brief"
 				lay-filter="admin-tab">
 				<ul class="layui-tab-title">
 					<li class="layui-this"><i class="fa fa-dashboard"
 						aria-hidden="true"></i> <cite>控制面板</cite></li>
 				</ul>
-				<div class="layui-tab-content"
+				<div id="layuiTabContent" class="layui-tab-content"
 					style="min-height: 150px; padding: 5px 0 0 0;">
 					<div class="layui-tab-item layui-show">
-						<iframe src="javascript:;"></iframe>
+						<iframe src="/jump/main"></iframe>
 					</div>
 				</div>
 			</div>
@@ -100,7 +101,7 @@
 		</div>
 		<div class="site-mobile-shade"></div>
 
-		<script type="text/javascript" src="/layui/layui.js"></script>
+		<script type="text/javascript" src="/plugins/layui/layui.js"></script>
 	</div>
 </body>
 
