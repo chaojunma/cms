@@ -4,7 +4,6 @@ import java.sql.Connection;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.itshcool.interceptor.GlobalActionInterceptor;
-import com.itshcool.model.UserInfo;
 import com.itshcool.pluigin.ScanTablePluigin;
 import com.itshcool.routes.AutoBindRoutes;
 import com.jfinal.config.Constants;
@@ -83,7 +82,6 @@ public class GlobalConfig extends JFinalConfig{
 		// 设置sql模板引擎加载路径
 		scanTablePluigin.setBaseSqlTemplatePath(PathKit.getRootClassPath() + "/sql");
 		me.add(scanTablePluigin);
-		arp.addMapping("user_info", UserInfo.class);
 		me.add(arp);
 	}
 	

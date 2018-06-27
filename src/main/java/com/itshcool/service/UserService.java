@@ -16,7 +16,7 @@ public class UserService {
      * 查询
      */
     public UserInfo findByName(String userName, String password) {
-    	String sql = Db.getSql("findByName");
+    	String sql = Db.getSql("user.findByName");
     	return dao.findFirst(sql, userName, password);
     }
 }
