@@ -37,10 +37,16 @@
 					</div>
 				</div>
 				<ul class="layui-nav admin-header-item">
-					<li class="layui-nav-item"><a href="javascript:;"
-						class="admin-header-user"> <img src="/img/photo.jpg" /> <input
-							type="text" id="id" name="id" value="" hidden="hidden"> <span
-							id="name"></span>
+					<li class="layui-nav-item">
+						<a href="javascript:;" class="clearCache">
+							<i class="layui-icon" data-icon="&#xe640;">&#xe640;</i>
+							<cite>清除缓存</cite>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+					<a href="javascript:;" class="admin-header-user">
+					 <img src="/img/photo.jpg" /> 
+					 <span id="name">Mark</span>
 					</a>
 						<dl class="layui-nav-child">
 							<dd>
@@ -102,6 +108,22 @@
 		<div class="site-mobile-shade"></div>
 
 		<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+		<script type="text/javascript">
+		layui.use(['jquery','layer'],function(){
+			var layer = layui.layer,
+				$ = layui.$;
+			//清除缓存
+			$(".clearCache").click(function(){
+				window.sessionStorage.clear();
+		        window.localStorage.clear();
+		        var index = layer.msg('清除缓存中，请稍候',{icon: 16,time:false,shade:0.8});
+		        setTimeout(function(){
+		            layer.close(index);
+		            layer.msg("缓存清除成功！");
+		        },1000);
+		    })
+		})
+		</script>
 	</div>
 </body>
 
