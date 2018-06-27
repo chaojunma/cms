@@ -1,8 +1,11 @@
 package com.itshcool.controller;
 
 import com.itshcool.annotation.JAction;
+import com.itshcool.constant.Constants;
 import com.itshcool.model.UserInfo;
 import com.itshcool.service.UserService;
+import com.itshcool.util.Result;
+import com.itshcool.util.ResultCode;
 import com.itshcool.validator.LoginValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
@@ -28,6 +31,13 @@ public class IndexController extends Controller{
 		render("login.html");
 	}
 	
+	/**
+	 * 跳转主页
+	 */
+	public void admin(){
+		render("index.html");
+	}
+	
 	
 	/**
 	 * 用户登录
@@ -35,11 +45,15 @@ public class IndexController extends Controller{
 	@Clear
 	@Before(LoginValidator.class)
 	public void login(){
-		UserInfo user = userService.findByName(getPara("userName"), getPara("password"));
+		String userName = getPara("userName");
+		String password = getPara("password");
+		UserInfo user = userService.findByName(userName, password);
 		if(user != null) {
-			renderJson(user);
+			setSessionAttr(Constants.CURRENT_USER, user);
+			redirect("/admin");
 		} else {
-			renderText("未查询到相关用户");
+			setAttr("result", new Result(ResultCode.LOGIN_VALID_ERROR));
+			render("login.html");
 		}
 	}
 	

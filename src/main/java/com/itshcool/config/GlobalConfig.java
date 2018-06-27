@@ -17,6 +17,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 
 /**
@@ -35,6 +36,8 @@ public class GlobalConfig extends JFinalConfig{
 	public void configConstant(Constants me) {
 		// 设置开发模式
 		me.setDevMode(true);
+		// 设置jfinal模板
+		me.setViewType(ViewType.JFINAL_TEMPLATE);
 		// 初始化配置文件
 		PropKit.use("config.properties"); 
 	}

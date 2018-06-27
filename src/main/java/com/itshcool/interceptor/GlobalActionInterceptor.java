@@ -1,5 +1,7 @@
 package com.itshcool.interceptor;
 
+import com.itshcool.constant.Constants;
+import com.itshcool.model.UserInfo;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
@@ -16,9 +18,9 @@ public class GlobalActionInterceptor implements Interceptor{
 	 */
 	public void intercept(Invocation inv) {
 		Controller controller = inv.getController();
-		String username = controller.getSessionAttr("username");
+		UserInfo user = controller.getSessionAttr(Constants.CURRENT_USER);
 		// 用户如果没有登录，那么就跳转到登录页面
-		if (username == null || username.equals("")) {
+		if (user == null) {
 			controller.setAttr("statusCode", 200);
 			controller.setAttr("message", "用户未登录");
 			controller.renderJson();

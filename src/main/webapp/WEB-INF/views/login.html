@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>CMS管理系统</title>
-<link rel="stylesheet" href="/layui/css/layui.css">
+<link rel="stylesheet" href="/plugins/layui/css/layui.css">
 <link rel="stylesheet" href="/css/login.css">
 </head>
 
@@ -20,9 +20,9 @@
 		<div class="login layui-anim layui-anim-up">
 			<h1>CMS管理系统</h1>
 			<p></p>
-			<form class="layui-form" action="" method="post">
+			<form class="layui-form" action="/login" method="post">
 				<div class="layui-form-item">
-					<input type="text" name="name" lay-verify="required"
+					<input type="text" name="userName" lay-verify="required"
 						placeholder="请输入账号" autocomplete="off" value=""
 						class="layui-input">
 				</div>
@@ -41,10 +41,14 @@
 	<script src="/layui/layui.js"></script>
 
 	<script>
+	
+	var nameMsg = '#(nameMsg)';
+	var passMsg = '#(passMsg)';
+	var msg = '#(result.message ??)';
+	
     layui.use(['form','layer','jquery','common','carousel', 'element'], function () {
         var $ = layui.jquery,
-            form = layui.form,
-            common = layui.common,
+        	layer = layui.layer,
             carousel = layui.carousel;
 
         /**背景图片轮播*/
@@ -57,6 +61,18 @@
             anim: 'fade',
             indicator:'none'
         });
+        
+        if(nameMsg != null && $.trim(nameMsg).length > 0){
+        	layer.alert(nameMsg, {icon: 2});
+        }
+        
+        if(passMsg != null && $.trim(passMsg).length > 0){
+        	layer.alert(passMsg, {icon: 2});
+        }
+        
+        if(msg != null && $.trim(msg).length > 0){
+        	layer.alert(msg, {icon: 2});
+        }
 
     });
 </script>
