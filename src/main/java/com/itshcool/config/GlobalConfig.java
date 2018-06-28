@@ -13,6 +13,7 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
+import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -95,6 +96,8 @@ public class GlobalConfig extends JFinalConfig{
 	public void configInterceptor(Interceptors me) {
 		// 设置全局拦截器
 		me.addGlobalActionInterceptor(new GlobalActionInterceptor());
+		// 添加session拦截器
+		me.add(new SessionInViewInterceptor());
 	}
 
 	

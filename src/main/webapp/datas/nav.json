@@ -1,0 +1,14 @@
+[
+	{
+		"title": "用户管理",
+		"icon": "fa-cubes",
+		"spread": false,
+		"children": [
+			{
+				"title": "用户列表",
+				"icon": "&#xe641;",
+				"href": "/user/list"
+			}
+		]
+	}
+]

@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
-
+<link rel="icon" href="/img/favicon.ico">
 <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
 <link rel="stylesheet" href="/css/global.css" media="all">
 <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
@@ -26,8 +26,8 @@
 		<div class="layui-header header header-demo">
 			<div class="layui-main">
 				<div class="admin-login-box">
-					<a class="logo" style="left: 0;" href="javascript:reload()"> <span
-						style="font-size: 22px;">CMS管理系统</span>
+					<a class="logo" style="left: 0;" href="javascript:reload;">
+						<span style="font-size: 22px;">CMS管理系统</span>
 					</a>
 					<div class="admin-side-toggle">
 						<i class="fa fa-bars" aria-hidden="true"></i>
@@ -46,7 +46,7 @@
 					<li class="layui-nav-item">
 					<a href="javascript:;" class="admin-header-user">
 					 <img src="/img/photo.jpg" /> 
-					 <span id="name">Mark</span>
+					 <span id="name">#(session.CURRENT_USER.user_name ??)</span>
 					</a>
 						<dl class="layui-nav-child">
 							<dd>
@@ -76,9 +76,12 @@
 			</div>
 		</div>
 		<div class="layui-side layui-bg-black" id="admin-side">
-			<div class="layui-side-scroll" id="admin-navbar-side"
-				lay-filter="side"></div>
+			<div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side">
+				<!-- 展示菜单列表 -->
+			</div>
 		</div>
+		
+		<!-- body体 -->
 		<div class="layui-body"
 			style="bottom: 0; border-left: solid 2px #1AA094;" id="admin-body">
 			<div id="adminNavCard" class="layui-tab admin-nav-card layui-tab-brief"
@@ -98,7 +101,7 @@
 		<div class="layui-footer footer footer-demo" id="admin-footer">
 			<div class="layui-main">
 				<p>
-					2018 &copy; <a href="javascript:reload()">小明童鞋</a>
+					2018 &copy; <a href="javascript:;">小明童鞋</a>
 				</p>
 			</div>
 		</div>
@@ -108,22 +111,7 @@
 		<div class="site-mobile-shade"></div>
 
 		<script type="text/javascript" src="/plugins/layui/layui.js"></script>
-		<script type="text/javascript">
-		layui.use(['jquery','layer'],function(){
-			var layer = layui.layer,
-				$ = layui.$;
-			//清除缓存
-			$(".clearCache").click(function(){
-				window.sessionStorage.clear();
-		        window.localStorage.clear();
-		        var index = layer.msg('清除缓存中，请稍候',{icon: 16,time:false,shade:0.8});
-		        setTimeout(function(){
-		            layer.close(index);
-		            layer.msg("缓存清除成功！");
-		        },1000);
-		    })
-		})
-		</script>
+		<script type="text/javascript" src="/js/index.js"></script>
 	</div>
 </body>
 
