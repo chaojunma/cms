@@ -108,5 +108,9 @@
 		</fieldset>
 	</div>
 	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript">
+		var userName = '#(session.CURRENT_USER.user_name ??)';
+		getLangDate(userName);
+	</script>
 </body>
 </html>
