@@ -4,6 +4,13 @@
 	<meta charset="UTF-8">
 	<title>员工列表</title>
 	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+	<!-- 操作模板 -->
+	<script type="text/html" id="lockT">
+		<input type="checkbox" name="lock" data="{{d.id}}" value="{{d.is_lock}}" title="{{ d.is_lock == 0 ? '启用' : '锁定' }}" {{ d.is_lock == 0 ? 'checked' : '' }} lay-filter="lockBox"> 
+		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+	</script>
 </head>
 <body style="padding-left: 10px;padding-right: 10px;">
 	<fieldset id="search" style="border: 1px dashed lightgray;">
@@ -27,7 +34,7 @@
 			        <div class="layui-input-inline">
 			            <select id="parent" lay-filter="state" lay-search="">
 			            	<option value="">请选择状态</option>
-			            	<option value="0">未锁定</option>
+			            	<option value="0">启用</option>
 			            	<option value="1">锁定</option>
 			            </select>
 			        </div>
@@ -48,13 +55,8 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
-	<script type="text/html" id="barDemo">
-		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
-		<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
-	</script>
 	<script type="text/javascript">
-		var $,from,table,layer,laydate;
+		var $,form,table,layer,laydate;
 		// 是否锁定
 		var isLock;
 		// 创建时间
@@ -88,10 +90,10 @@
 					{field:'user_name',title:'用户名', width:120,align:'center'},
 					{field:'email',title:'邮箱', width:150,align:'center'},
 					{field:'phone',title:'手机号', width:120,align:'center'},
-					{field:'is_lock',title:'状态',templet:'<div>{{d.is_lock===0?"未锁定":"已锁定"}}</div>', width:100,align:'center'},
+					{field:'is_lock',title:'状态',templet:'<div>{{d.is_lock===0?"启用":"锁定"}}</div>', width:100,align:'center'},
 					{field:'online',title:'是否在线',templet:'<div>{{d.online===1?"在线":"离线"}}</div>', width:100,align:'center'},
 					{field:'create_time',title:'创建时间', width:180,align:'center'},
-					{fixed:'right', title:'操作', width:160, align:'center',style:"margin-right:0px;", toolbar: '#barDemo'}
+					{fixed:'right', title:'操作', width:300, align:'center',style:"margin-right:0px;", templet: '#lockT'}
 				]],
 				page:true,
 				id:'userList'
@@ -112,15 +114,35 @@
 				reload();
 			});
 			
+			
+			
+			//监听启用操作
+			form.on('checkbox(lockBox)', function(obj) {
+				var othis = obj.othis;
+				var check = obj.elem.checked ? 0 : 1;
+				if (this.value != check) {
+					$.post('/user/lockOrUnlock', {
+						"userId" : $(this).attr('data'),
+						"isLock" : check
+					}, function(data) {
+						if (data.code === 200) {
+							layer.msg('操作成功');
+							// 调用重新加载
+							reload();
+						}
+					});
+				}
+			});
+
 		});
-		
+
 		// 重新加载
-		function reload(){
-			table.reload('userList',{
-				where:{
-					key:$("#key").val(),
-					createTime:createTime,
-					isLock:isLock
+		function reload() {
+			table.reload('userList', {
+				where : {
+					key : $("#key").val(),
+					createTime : createTime,
+					isLock : isLock
 				}
 			});
 		}

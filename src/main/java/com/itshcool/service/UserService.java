@@ -38,4 +38,27 @@ public class UserService {
     	return dao.paginate(param.getPage(), param.getLimit(), sqlPara);
     }
     
+    
+    /**
+     * 根据ID查询用户信息
+     * @param id
+     * @return
+     */
+    public UserInfo findById (int id){
+    	return dao.findById(id);
+    }
+    
+    
+    /**
+     * 保存或更新
+     * @return
+     */
+    public void saveOrUpdate(UserInfo user){
+    	if(user.get("id") != null){
+    		user.update();
+    	} else {
+    		user.save();
+    	}
+    }
+    
 }

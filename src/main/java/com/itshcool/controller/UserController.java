@@ -5,6 +5,7 @@ import com.itshcool.model.UserInfo;
 import com.itshcool.param.UserQueryParam;
 import com.itshcool.service.UserService;
 import com.itshcool.util.PageResult;
+import com.itshcool.util.Result;
 import com.itshcool.util.ResultCode;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -29,4 +30,16 @@ public class UserController extends Controller{
 		renderJson(result);
 	}
 	
+	
+	/**
+	 * 用户锁定或解锁
+	 */
+	public void lockOrUnlock(){
+		int userId = getParaToInt("userId");
+		int isLock = getParaToInt("isLock");
+		UserInfo user = userService.findById(userId);
+		user.set("is_lock", isLock);
+		userService.saveOrUpdate(user);
+		renderJson(new Result());
+	}
 }

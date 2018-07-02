@@ -49,6 +49,9 @@ public class IndexController extends Controller{
 		String password = getPara("password");
 		UserInfo user = userService.findByName(userName, password);
 		if(user != null) {
+			user.set("online", 1);
+			// 更新在线状态
+			userService.saveOrUpdate(user);
 			setSessionAttr(Constants.CURRENT_USER, user);
 			redirect("/admin");
 		} else {
