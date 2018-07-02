@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResultCode {
 
+	public static final ResultCode PAGE_SUCCESS = new ResultCode(0, "成功");
 	public static final ResultCode SUCCESS = new ResultCode(200, "成功");
 	public static final ResultCode PARAMETER_ERROR = new ResultCode(400, "请求数据非法");
 	public static final ResultCode AUTHORIZE_FAIL_ERROR = new ResultCode(401, "用户未授权");

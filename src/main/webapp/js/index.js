@@ -2,9 +2,32 @@ layui.config({
     base: '/js/'
 }).use([ 'jquery','layer','navbar','tab'], function() {
 	
-	var layer = layui.layer,
-		$ = layui.$,
+	var $ = layui.$,
+		layer =	layui.layer,
 		navbar = layui.navbar();
+	
+		var tab = layui.tab({
+	        elem: '.admin-nav-card', //设置选项卡容器
+	        contextMenu: true,
+	        onSwitch: function (data) {
+	            console.log(data.id); //当前Tab的Id
+	            console.log(data.index); //得到当前Tab的所在下标
+	            console.log(data.elem); //得到当前的Tab大容器
+	            console.log(tab.getCurrentTabId())
+	        },
+	        closeBefore: function (obj) { //tab 关闭之前触发的事件
+	            console.log(obj);
+	            //obj.title  -- 标题
+	            //obj.url    -- 链接地址
+	            //obj.id     -- id
+	            //obj.tabId  -- lay-id
+	            return true;
+	        }
+	    });
+	
+	
+	
+	
 	//清除缓存
 	$(".clearCache").click(function(){
 		window.sessionStorage.clear();
@@ -84,7 +107,7 @@ layui.config({
     navbar.render();
     //监听点击事件
     navbar.on('click(side)', function (data) {
-    	layui.layer.msg(data.field.href);
+    	 tab.tabAdd(data.field);
     });
 
 });

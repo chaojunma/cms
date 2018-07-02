@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xml:lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>员工列表</title>
+	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+</head>
+<body style="padding-left: 10px;padding-right: 10px;">
+	<fieldset id="search" style="border: 1px dashed lightgray;">
+		<legend>查询条件</legend>
+		<form id="formSearch" class="layui-form" style="line-height: 60px;height: 60px;">
+		    <div class="layui-form-item">
+		    	<div class="layui-inline">
+			    	<label class="layui-form-label">用户名称</label>
+			        <div class="layui-input-inline">
+			            <input type="text" class="layui-input" id="txt_search_empname">
+			        </div>
+		    	</div>
+		        <div class="layui-inline">
+			    	<label class="layui-form-label">创建时间</label>
+			        <div class="layui-input-inline">
+			            <input type="text" class="layui-input" id="createtime">
+			        </div>
+		    	</div>
+		    	<div class="layui-inline">
+			    	<label class="layui-form-label">状态</label>
+			        <div class="layui-input-inline">
+			            <select id="parent" lay-filter="state" lay-search="">
+			            	<option value="">请选择状态</option>
+			            	<option value="1">启用</option>
+			            	<option value="0">禁用</option>
+			            	<option value="-1">删除</option>
+			            </select>
+			        </div>
+		    	</div>
+		    </div>
+		</form>
+	</fieldset>
+	<div class="layui-col-md12" style="margin-top: 10px;">
+		<div class="layui-row">
+			<div class="layui-col-md3">
+				<button class="layui-btn layui-btn-small" data-type="search">
+				  <i class="layui-icon">&#x1002;</i>查询
+				</button>
+	        	<button class="layui-btn layui-btn-small" data-type="add">
+				  <i class="layui-icon">&#xe654;</i>新增
+				</button>
+				<button class="layui-btn layui-btn-small" data-type="grant">
+				  <i class="layui-icon">&#xe612;</i>授权
+				</button>
+			</div>
+		</div>
+		<div class="layui-col-md12 box">
+			<table id="table" class="layui-table" lay-filter="test"></table>
+		</div>
+	</div>
+	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+	</script>
+	<script type="text/javascript">
+		layui.use(['laydate','table','layer','form'],function(){
+			var form = layui.form;
+			var $ = layui.$;
+			//引入弹出层控件
+			var layer = layui.layer;
+			//引入表格
+			var table = layui.table;
+			table.render({
+				elem:'#table',
+				url:'/user/list',
+				limit: 10,
+				cols:[[
+					{checkbox: true, fixed: true},
+					{field:'id',title:'ID', width:50,align:'center'},
+					{field:'user_name',title:'用户名', width:120,align:'center'},
+					{field:'email',title:'邮箱', width:150,align:'center'},
+					{field:'phone',title:'手机号', width:120,align:'center'},
+					{field:'is_lock',title:'状态',templet:'<div>{{d.is_lock===0?"未锁定":"已锁定"}}</div>', width:100,align:'center'},
+					{field:'online',title:'是否在线',templet:'<div>{{d.online===1?"在线":"离线"}}</div>', width:100,align:'center'},
+					{field:'create_time',title:'创建时间', width:180,align:'center'},
+					{fixed:'right', title:'操作', width:160, align:'center',style:"margin-right:0px;", toolbar: '#barDemo'}
+				]],
+				page:true
+			});
+		});
+	</script>
+	
+</body>
+</html>

@@ -21,9 +21,16 @@ public class Result {
 	private Object data; //返回数据
 	
 	public Result() {
-		code = 200;
-		message = "success";
+		this.code = 200;
+		this.message = "success";
 	}
+	
+	public Result(Object data) {
+		this.code = 200;
+		this.message = "success";
+		this.data = data;
+	}
+	
 	
 	public Result(ResultCode resultCode) {
 		this.code = resultCode.getCode();

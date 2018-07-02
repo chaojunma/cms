@@ -7,7 +7,7 @@
 			{
 				"title": "用户列表",
 				"icon": "&#xe641;",
-				"href": "/user/list"
+				"href": "/jump/user_list"
 			}
 		]
 	}
