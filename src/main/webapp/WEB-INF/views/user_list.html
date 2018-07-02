@@ -11,9 +11,9 @@
 		<form id="formSearch" class="layui-form" style="line-height: 60px;height: 60px;">
 		    <div class="layui-form-item">
 		    	<div class="layui-inline">
-			    	<label class="layui-form-label">用户名称</label>
+			    	<label class="layui-form-label">关键字</label>
 			        <div class="layui-input-inline">
-			            <input type="text" class="layui-input" id="txt_search_empname">
+			            <input type="text" class="layui-input" id="key" placeholder="用户名/邮箱/手机号">
 			        </div>
 		    	</div>
 		        <div class="layui-inline">
@@ -27,9 +27,8 @@
 			        <div class="layui-input-inline">
 			            <select id="parent" lay-filter="state" lay-search="">
 			            	<option value="">请选择状态</option>
-			            	<option value="1">启用</option>
-			            	<option value="0">禁用</option>
-			            	<option value="-1">删除</option>
+			            	<option value="0">未锁定</option>
+			            	<option value="1">锁定</option>
 			            </select>
 			        </div>
 		    	</div>
@@ -41,12 +40,6 @@
 			<div class="layui-col-md3">
 				<button class="layui-btn layui-btn-small" data-type="search">
 				  <i class="layui-icon">&#x1002;</i>查询
-				</button>
-	        	<button class="layui-btn layui-btn-small" data-type="add">
-				  <i class="layui-icon">&#xe654;</i>新增
-				</button>
-				<button class="layui-btn layui-btn-small" data-type="grant">
-				  <i class="layui-icon">&#xe612;</i>授权
 				</button>
 			</div>
 		</div>
@@ -61,20 +54,37 @@
 		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
 	</script>
 	<script type="text/javascript">
+		var $,from,table,layer,laydate;
+		// 是否锁定
+		var isLock;
+		// 创建时间
+		var createTime;
 		layui.use(['laydate','table','layer','form'],function(){
-			var form = layui.form;
-			var $ = layui.$;
+			form = layui.form;
+			$ = layui.$;
+			// 引用时间插件
+			laydate = layui.laydate;
+			laydate.render({
+				elem : '#createtime',
+				theme: 'molv',
+				done : function(value,date){
+					//当时间值变换时，触发该事件
+					createTime = value;
+					// 调用重新加载
+					reload();
+				}
+			});
 			//引入弹出层控件
-			var layer = layui.layer;
+			layer = layui.layer;
 			//引入表格
-			var table = layui.table;
+			table = layui.table;
 			table.render({
 				elem:'#table',
 				url:'/user/list',
 				limit: 10,
 				cols:[[
 					{checkbox: true, fixed: true},
-					{field:'id',title:'ID', width:50,align:'center'},
+					{field:'id',title:'ID', minWidth:70,align:'center'},
 					{field:'user_name',title:'用户名', width:120,align:'center'},
 					{field:'email',title:'邮箱', width:150,align:'center'},
 					{field:'phone',title:'手机号', width:120,align:'center'},
@@ -83,9 +93,37 @@
 					{field:'create_time',title:'创建时间', width:180,align:'center'},
 					{fixed:'right', title:'操作', width:160, align:'center',style:"margin-right:0px;", toolbar: '#barDemo'}
 				]],
-				page:true
+				page:true,
+				id:'userList'
 			});
+			
+			
+			// 点击查询
+			$('.layui-btn-small').on('click', function(){
+				// 调用重新加载
+				reload();
+			})
+			
+			
+			//监听选择框选中事件
+			form.on('select(state)',function(data){
+				isLock = data.value;
+				// 调用重新加载
+				reload();
+			});
+			
 		});
+		
+		// 重新加载
+		function reload(){
+			table.reload('userList',{
+				where:{
+					key:$("#key").val(),
+					createTime:createTime,
+					isLock:isLock
+				}
+			});
+		}
 	</script>
 	
 </body>

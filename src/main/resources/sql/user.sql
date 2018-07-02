@@ -13,10 +13,22 @@
 		SELECT *
 			FROM user_info
 		WHERE 1=1
-		#if(userName??)
-			AND user_name LIKE concat('%',#para(userName),'%')
+		#if(key??)
+			AND (
+					user_name LIKE concat('%',#para(key),'%')
+					OR 
+					email LIKE concat('%',#para(key),'%')
+					OR
+					phone LIKE concat('%',#para(key),'%')
+				)
 		#end
-			ORDER BY id #(orderStr)
+		#if(createTime??)
+			AND create_time>=#para(createTime)
+		#end
+		#if(isLock??)
+			AND is_lock=#para(isLock)
+		#end
+			ORDER BY id #(order)
 	#end
 	
 #end

@@ -7,5 +7,12 @@ import lombok.Setter;
 @Getter
 public class UserQueryParam extends PageParam{
 
-	private String userName;
+	// 关键字
+	private String key;
+	
+	// 创建时间
+	private String createTime;
+	
+	// 是否锁定
+	private Integer isLock;
 }

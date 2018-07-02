@@ -30,8 +30,10 @@ public class UserService {
      * @return
      */
     public Page<UserInfo> list(UserQueryParam param){
-    	Kv para = Kv.by("userName", param.getUserName())
-    			                .set("orderStr", param.getOrder());
+    	Kv para = Kv.by("key", param.getKey())
+    			                .set("order", param.getOrder())
+    			                .set("createTime", param.getCreateTime())
+    			                .set("isLock", param.getIsLock());
     	SqlPara sqlPara = Db.getSqlPara("user.findByPage", para);
     	return dao.paginate(param.getPage(), param.getLimit(), sqlPara);
     }
