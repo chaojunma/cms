@@ -5,12 +5,12 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UserQueryParam extends PageParam{
+public class LogQueryParam extends PageParam {
 
 	// 关键字
 	private String key;
 	// 创建时间
 	private String createTime;
-	// 是否锁定
-	private Integer isLock;
+	// 日志级别
+	private String level;
 }

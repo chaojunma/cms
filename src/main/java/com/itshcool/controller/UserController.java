@@ -1,12 +1,13 @@
 package com.itshcool.controller;
 
 import com.itshcool.annotation.JAction;
+import com.itshcool.interceptor.LogInterceptor;
 import com.itshcool.model.UserInfo;
 import com.itshcool.param.UserQueryParam;
 import com.itshcool.service.UserService;
 import com.itshcool.util.PageResult;
 import com.itshcool.util.Result;
-import com.itshcool.util.ResultCode;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -26,7 +27,7 @@ public class UserController extends Controller{
 	public void list(){
 		UserQueryParam param = getBean(UserQueryParam.class, "");
 		Page<UserInfo> data = userService.list(param);
-		PageResult<UserInfo> result = new PageResult<>(ResultCode.PAGE_SUCCESS, data.getTotalRow(), data.getList());
+		PageResult<UserInfo> result = new PageResult<>(data.getTotalRow(), data.getList());
 		renderJson(result);
 	}
 	
@@ -34,6 +35,7 @@ public class UserController extends Controller{
 	/**
 	 * 用户锁定或解锁
 	 */
+	@Before(LogInterceptor.class)
 	public void lockOrUnlock(){
 		int userId = getParaToInt("userId");
 		int isLock = getParaToInt("isLock");

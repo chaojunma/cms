@@ -10,5 +10,17 @@
 				"href": "/jump/user_list"
 			}
 		]
+	},
+	{
+		"title": "日志管理",
+		"icon": "&#xe644;",
+		"spread": false,
+		"children": [
+			{
+				"title": "日志列表",
+				"icon": "&#xe64d;",
+				"href": "/jump/log_list"
+			}
+		]
 	}
 ]

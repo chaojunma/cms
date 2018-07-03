@@ -18,9 +18,9 @@ public class PageResult<T> {
 	private List<T> data;
 	
 	
-	public PageResult(ResultCode resultCode, Integer count, List<T> data) {
-		this.code = resultCode.getCode();
-		this.msg = resultCode.getMessage();
+	public PageResult(Integer count, List<T> data) {
+		this.code = ResultCode.PAGE_SUCCESS.getCode();
+		this.msg = ResultCode.PAGE_SUCCESS.getMessage();
 		this.count = count;
 		this.data =data;
 	}

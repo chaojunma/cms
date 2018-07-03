@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xml:lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>日志列表</title>
+	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+</head>
+<body style="padding-left: 10px;padding-right: 10px;">
+	<fieldset id="search" style="border: 1px dashed lightgray;">
+		<legend>查询条件</legend>
+		<form id="formSearch" class="layui-form" style="line-height: 60px;height: 60px;">
+		    <div class="layui-form-item">
+		    	<div class="layui-inline">
+			    	<label class="layui-form-label">关键字</label>
+			        <div class="layui-input-inline">
+			            <input type="text" class="layui-input" id="key" placeholder="用户名/请求地址">
+			        </div>
+		    	</div>
+		        <div class="layui-inline">
+			    	<label class="layui-form-label">创建时间</label>
+			        <div class="layui-input-inline">
+			            <input type="text" class="layui-input" id="createtime">
+			        </div>
+		    	</div>
+		    	<div class="layui-inline">
+			    	<label class="layui-form-label">日志级别</label>
+			        <div class="layui-input-inline">
+			            <select id="log" lay-filter="log" lay-search="">
+			            	<option value="">请选择</option>
+			            	<option value="info">info</option>
+			            	<option value="error">error</option>
+			            </select>
+			        </div>
+		    	</div>
+		    </div>
+		</form>
+	</fieldset>
+	<div class="layui-col-md12" style="margin-top: 10px;">
+		<div class="layui-row">
+			<div class="layui-col-md3">
+				<button class="layui-btn layui-btn-small" data-type="search">
+				  <i class="layui-icon">&#x1002;</i>查询
+				</button>
+			</div>
+		</div>
+		<div class="layui-col-md12 box">
+			<table id="table" class="layui-table" lay-filter="test"></table>
+		</div>
+	</div>
+	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+	<script type="text/javascript">
+		var $,form,table,layer,laydate;
+		// 创建时间
+		var createTime;
+		// 日志级别
+		var level;
+		layui.use(['laydate','table','layer','form'],function(){
+			form = layui.form;
+			$ = layui.$;
+			//引入弹出层控件
+			layer = layui.layer;
+			// 引用时间插件
+			laydate = layui.laydate;
+			laydate.render({
+				elem : '#createtime',
+				theme: 'molv',
+				done : function(value,date){
+					//当时间值变换时，触发该事件
+					createTime = value;
+					// 调用重新加载
+					reload();
+				}
+			});
+			//引入表格
+			table = layui.table;
+			table.render({
+				elem:'#table',
+				url:'/log/list',
+				limit:10,
+				cols:[[
+					{checkbox: true, fixed: true},
+					{field:'id',title:'ID', width:80,align:'center'},
+					{field:'user_name',title:'用户名称', width:100,align:'center'},
+					{field:'url',title:'请求地址', width:150,align:'center'},
+					{field:'params',title:'请求参数', width:300,align:'center'},
+					{field:'level',title:'日志级别', width:100,align:'center'},
+					{field:'result',title:'返回结果', width:250,align:'center'},
+					{field:'ip',title:'请求IP', width:150,align:'center'}
+				]],
+				id:'logList',
+				page:true
+			});
+			
+			// 点击查询
+			$('.layui-btn-small').on('click', function(){
+				// 调用重新加载
+				reload();
+			})
+			
+			
+			//监听选择框选中事件
+			form.on('select(log)',function(data){
+				level = data.value;
+				reload()
+			});
+		});
+		
+		
+		// 重新加载
+		function reload() {
+			table.reload('logList', {
+				where : {
+					key : $("#key").val(),
+					createTime : createTime,
+					level : level
+				}
+			});
+		}
+	</script>
+	
+</body>
+</html>
