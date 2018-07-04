@@ -7,7 +7,6 @@
 	<!-- 操作模板 -->
 	<script type="text/html" id="lockT">
 		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
-		<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
 		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
 	</script>
 </head>
@@ -36,6 +35,9 @@
 			<div class="layui-col-md3">
 				<button class="layui-btn layui-btn-small search" data-type="search">
 				  <i class="layui-icon">&#x1002;</i>查询
+				</button>
+				<button class="layui-btn layui-btn-small add" data-type="add">
+				  <i class="layui-icon">&#xe654;</i>新增
 				</button>
 				<button class="layui-btn layui-btn-danger layui-btn-small" data-type="add">
 				  <i class="layui-icon">&#xe640;</i>删除
@@ -76,13 +78,13 @@
 				limit:10,
 				cols:[[
 					{checkbox: true, fixed: true},
-					{field:'id',title:'ID', width:80,align:'center'},
+					{field:'id',title:'ID', width:70,align:'center'},
 					{field:'title',title:'标题', width:200,align:'center'},
 					{field:'description',title:'描述', width:300,align:'center'},
 					{field:'instructor',title:'讲师', width:100,align:'center'},
 					{field:'pv',title:'浏览量', width:100,align:'center'},
 					{field:'create_time',title:'创建时间', width:200,align:'center'},
-					{field:'right',title:'操作', width:150, align:'center',style:"margin-right:0px;", templet: '#lockT'}
+					{field:'right',title:'操作', width:170, align:'center',style:"margin-right:0px;", templet: '#lockT'}
 				]],
 				id:'seriesList',
 				page:true
@@ -93,6 +95,22 @@
 				// 调用重新加载
 				reload();
 			})
+			
+			$('.add').on('click', function(){
+				openBox(null);
+			})
+			
+			
+			//监听操作按钮
+			table.on('tool(test)',function(row){
+				var data = row.data;
+				if(row.event === 'detail'){//查看详情
+					// 打开弹框
+					openBox(data);
+				} else { // 删除
+					
+				}
+			});
 			
 		});
 		
@@ -105,6 +123,40 @@
 					createTime : createTime
 				}
 			});
+		}
+		
+		// 打开弹框
+		function openBox(data){
+			var title = data == null ? '新增系列':'系列详情';
+			layer.open({
+				id:'detail',
+				skin:'layui-layer-molv',
+				type:2,
+				content:'/jump/series_form',
+				area:['750px','520px'],
+				title:title,
+				closeBtn:2,
+				success:function(layero,index){
+					var body = layer.getChildFrame('body', index);
+				    var iframeWin = window[layero.find('iframe')[0]['name']];
+				    if(data != null){// 查看详情
+				    	// 赋值
+				    	setDetail(body, data);
+				    }
+				}
+			});
+		}
+		
+		
+		//向弹出层赋值
+		function setDetail(body,data){
+			var prefix = 'https://static.mysiteforme.com/';
+			body.find('#id').val(data.id);
+		    body.find('#title').val(data.title);
+		    body.find('#description').val(data.description);
+		    body.find('#img_url').attr('src',prefix + data.cover);
+		    body.find('#instructor').val(data.instructor);
+		    body.find('#about_instructor').val(data.about_instructor);
 		}
 	</script>
 	

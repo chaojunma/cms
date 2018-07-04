@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>课程系列表单</title>
+<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+</head>
+<body style="padding: 20px;">
+
+	<form class="layui-form" id="seriesForm" enctype="multipart/form-data">
+		<input type="text" id="id" name="id" hidden="hidden">
+		<div class="layui-form-item">
+			<label class="layui-form-label">系列标题</label>
+			<div class="layui-input-block">
+				<input type="text" id="title" name="title" autocomplete="off"
+					placeholder="请输入标题" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">课程描述</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入内容" id="description" name="description" class="layui-textarea" lay-verify="required"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label" style="margin-top: 40px;">封面图：</label>
+				<label class="layui-form-label">
+				 <img class="layui-upload-img" width="160px" height="120px" id="img_url" />
+				</label>
+				<div class="layui-input-inline layui-upload"
+					style="margin-top: 50px; margin-left: 100px;">
+					<button type="button" class="layui-btn" id="upload">上传图片</button>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">讲师</label>
+			<div class="layui-input-block">
+				<input type="text" id="instructor" name="instructor" autocomplete="off"
+					placeholder="请输入讲师姓名" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">讲师介绍</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入内容" id="about_instructor" name="about_instructor" class="layui-textarea" lay-verify="required"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" id="save" lay-submit="" lay-filter="save">提交</button>
+				<button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+	<script type="text/javascript">
+	layui.use(['layer', 'form','upload'], function () {
+		 var layer = layui.layer,
+			$ = layui.jquery,
+			form = layui.form,
+			upload = layui.upload;
+	    
+	    
+	    upload.render({
+		    elem: '#upload'
+		    ,auto: false
+		    ,choose: function(obj){
+		    	//预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+		        obj.preview(function(index, file, result){
+		        	$("#img_url").attr("src",result);
+		        });
+		    }
+		});
+	    
+	    form.on('submit(save)', function (data) {
+	    	
+	    	var formData = new FormData($( "#seriesForm")[0]); 
+			
+			$.ajax({
+				type : "post",
+				url : "/series/saveOrUpdate",
+				data:formData,
+				dataType : "json",
+				processData:false,
+		        contentType:false,
+				success : function(data) {
+					if(data.code == 200){
+						//当你在iframe页面关闭自身时
+						var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+						parent.layer.close(index);	//再执行关闭
+						// 重新加载
+						parent.reload();
+					} else {
+						layer.msg(data.message);
+					}
+				}
+			}); 
+			
+			return false;
+	    });
+	});
+	</script>
+</body>
+</html>

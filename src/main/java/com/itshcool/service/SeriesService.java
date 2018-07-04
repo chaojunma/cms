@@ -24,4 +24,6 @@ public class SeriesService {
     	SqlPara sqlPara = Db.getSqlPara("series.findByPage", para);
     	return dao.paginate(param.getPage(), param.getLimit(), sqlPara);
     }
+	
+	
 }
