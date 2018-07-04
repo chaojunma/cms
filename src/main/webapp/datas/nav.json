@@ -22,5 +22,17 @@
 				"href": "/jump/log_list"
 			}
 		]
+	},
+	{
+		"title": "课程管理",
+		"icon": "&#xe632;",
+		"spread": false,
+		"children": [
+			{
+				"title": "课程系列",
+				"icon": "&#xe638;",
+				"href": "/jump/series_list"
+			}
+		]
 	}
 ]

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xml:lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>课程系列</title>
+	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+	<!-- 操作模板 -->
+	<script type="text/html" id="lockT">
+		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+	</script>
+</head>
+<body style="padding-left: 10px;padding-right: 10px;">
+	<fieldset id="search" style="border: 1px dashed lightgray;">
+		<legend>查询条件</legend>
+		<form id="formSearch" class="layui-form" style="line-height: 60px;height: 60px;">
+		    <div class="layui-form-item">
+		    	<div class="layui-inline">
+			    	<label class="layui-form-label">关键字</label>
+			        <div class="layui-input-inline">
+			            <input type="text" class="layui-input" id="key" placeholder="标题/描述/讲师">
+			        </div>
+		    	</div>
+		        <div class="layui-inline">
+			    	<label class="layui-form-label">创建时间</label>
+			        <div class="layui-input-inline">
+			            <input type="text" class="layui-input" id="createtime">
+			        </div>
+		    	</div>
+		    </div>
+		</form>
+	</fieldset>
+	<div class="layui-col-md12" style="margin-top: 10px;">
+		<div class="layui-row">
+			<div class="layui-col-md3">
+				<button class="layui-btn layui-btn-small search" data-type="search">
+				  <i class="layui-icon">&#x1002;</i>查询
+				</button>
+				<button class="layui-btn layui-btn-danger layui-btn-small" data-type="add">
+				  <i class="layui-icon">&#xe640;</i>删除
+				</button>
+			</div>
+		</div>
+		<div class="layui-col-md12 box">
+			<table id="table" class="layui-table" lay-filter="test"></table>
+		</div>
+	</div>
+	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+	<script type="text/javascript">
+		var $,form,table,layer,laydate;
+		// 创建时间
+		var createTime;
+		layui.use(['laydate','table','layer','form'],function(){
+			form = layui.form;
+			$ = layui.$;
+			//引入弹出层控件
+			layer = layui.layer;
+			// 引用时间插件
+			laydate = layui.laydate;
+			laydate.render({
+				elem : '#createtime',
+				theme: 'molv',
+				done : function(value,date){
+					//当时间值变换时，触发该事件
+					createTime = value;
+					// 调用重新加载
+					reload();
+				}
+			});
+			//引入表格
+			table = layui.table;
+			table.render({
+				elem:'#table',
+				url:'/series/list',
+				limit:10,
+				cols:[[
+					{checkbox: true, fixed: true},
+					{field:'id',title:'ID', width:80,align:'center'},
+					{field:'title',title:'标题', width:200,align:'center'},
+					{field:'description',title:'描述', width:300,align:'center'},
+					{field:'instructor',title:'讲师', width:100,align:'center'},
+					{field:'pv',title:'浏览量', width:100,align:'center'},
+					{field:'create_time',title:'创建时间', width:200,align:'center'},
+					{field:'right',title:'操作', width:150, align:'center',style:"margin-right:0px;", templet: '#lockT'}
+				]],
+				id:'seriesList',
+				page:true
+			});
+			
+			// 点击查询
+			$('.search').on('click', function(){
+				// 调用重新加载
+				reload();
+			})
+			
+		});
+		
+		
+		// 重新加载
+		function reload() {
+			table.reload('seriesList', {
+				where : {
+					key : $("#key").val(),
+					createTime : createTime
+				}
+			});
+		}
+	</script>
+	
+</body>
+</html>
