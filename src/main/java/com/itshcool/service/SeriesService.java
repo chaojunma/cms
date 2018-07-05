@@ -26,4 +26,27 @@ public class SeriesService {
     }
 	
 	
+	/**
+	 * 根据ID删除
+	 * @param id
+	 * @return
+	 */
+	public boolean deleteById(int id){
+		return dao.deleteById(id);
+	}
+	
+	
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @return
+	 */
+	public int[] batchDelete(String[] ids) {
+		Object[][] paras = new Object[ids.length][1];
+		for (int i = 0; i < ids.length; i++) {
+			paras[i][0] = ids[i];
+		}
+		String sql = "delete from class_series where id in(?)";
+		return Db.batch(sql, paras, ids.length);
+	}
 }

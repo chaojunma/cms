@@ -39,7 +39,7 @@
 				<button class="layui-btn layui-btn-small add" data-type="add">
 				  <i class="layui-icon">&#xe654;</i>新增
 				</button>
-				<button class="layui-btn layui-btn-danger layui-btn-small" data-type="add">
+				<button class="layui-btn layui-btn-danger layui-btn-small delete" data-type="add">
 				  <i class="layui-icon">&#xe640;</i>删除
 				</button>
 			</div>
@@ -96,9 +96,39 @@
 				reload();
 			})
 			
+			// 新增系列
 			$('.add').on('click', function(){
 				openBox(null);
 			})
+			
+			// 批量删除
+			$('.delete').on('click', function(){
+				// 此处seriesList需要和查询中定义的id一致
+				var checkStatus = table.checkStatus('seriesList');
+				var data = checkStatus.data;
+				var ids = new Array();
+				if(data.length == 0){
+					layer.msg('请选择要删除的数据');
+					return;
+				}
+				
+				$(data).each(function(){
+					// 将要删除数据的ID放入数组
+					ids.push(this.id);
+				});
+				
+				layer.confirm('确认删除?',{
+					icon: 3, 
+					title:'提示',
+					btnAlign: 'c',
+					yes: function(index){
+						 layer.close(index);
+						 batchDelete(ids);
+						 ids.splice(0,ids.length);//清空数组 
+					}
+				})
+				
+			});
 			
 			
 			//监听操作按钮
@@ -108,7 +138,15 @@
 					// 打开弹框
 					openBox(data);
 				} else { // 删除
-					
+					layer.confirm('确认删除?',{
+						icon: 3, 
+						title:'提示',
+						btnAlign: 'c',
+						yes: function(index){
+							 layer.close(index);
+							 deleteById(data.id);
+						}
+					})
 				}
 			});
 			
@@ -157,6 +195,41 @@
 		    body.find('#img_url').attr('src',prefix + data.cover);
 		    body.find('#instructor').val(data.instructor);
 		    body.find('#about_instructor').val(data.about_instructor);
+		}
+		
+		// 删除数据
+		function deleteById(id){
+			$.ajax({
+				type : "post",
+				url : "/series/delete",
+				data :{
+					id:id
+				},
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					// 重新加载
+					reload();
+				}// end success
+			});//ajax end
+		}
+		
+		
+		// 批量删除数据
+		function batchDelete(ids){
+			$.ajax({
+				type : "post",
+				url : "/series/batchDelete",
+				data :{
+					ids:ids
+				},
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					// 重新加载
+					reload();
+				}// end success
+			});//ajax end
 		}
 	</script>
 	

@@ -54,4 +54,22 @@ public class ClassSeriesController extends Controller{
 		}
 		renderJson(new Result());
 	}
+	
+	
+	/**
+	 * 删除数据
+	 */
+	public void delete(){
+		seriesService.deleteById(getParaToInt("id"));
+		renderJson(new Result());
+	}
+	
+	/**
+	 * 批量删除
+	 */
+	public void batchDelete(){
+		String[] ids = getParaValues("ids[]");
+		seriesService.batchDelete(ids);
+		renderJson(new Result());
+	}
 }
