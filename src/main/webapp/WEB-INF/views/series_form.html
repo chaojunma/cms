@@ -19,14 +19,14 @@
 		<div class="layui-form-item layui-form-text">
 			<label class="layui-form-label">课程描述</label>
 			<div class="layui-input-block">
-				<textarea placeholder="请输入内容" id="description" name="description" class="layui-textarea" lay-verify="required"></textarea>
+				<textarea placeholder="请输入内容" id="description" name="description" class="layui-textarea" lay-verify="description"></textarea>
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<label class="layui-form-label" style="margin-top: 40px;">封面图：</label>
 				<label class="layui-form-label">
-				 <img class="layui-upload-img" width="160px" height="120px" id="img_url" />
+				 <img class="layui-upload-img" width="160px" height="120px" id="img_url" src="/img/back.jpg" lay-verify="cover"/>
 				</label>
 				<div class="layui-input-inline layui-upload"
 					style="margin-top: 50px; margin-left: 100px;">
@@ -44,7 +44,7 @@
 		<div class="layui-form-item layui-form-text">
 			<label class="layui-form-label">讲师介绍</label>
 			<div class="layui-input-block">
-				<textarea placeholder="请输入内容" id="about_instructor" name="about_instructor" class="layui-textarea" lay-verify="required"></textarea>
+				<textarea placeholder="请输入内容" id="about_instructor" name="about_instructor" class="layui-textarea" lay-verify="about_instructor"></textarea>
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -56,16 +56,33 @@
 	</form>
 	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
 	<script type="text/javascript">
-	layui.use(['layer', 'form','upload'], function () {
+	layui.use(['layer', 'form','upload','layedit'], function () {
 		 var layer = layui.layer,
 			$ = layui.jquery,
 			form = layui.form,
+			layedit = layui.layedit,
 			upload = layui.upload;
 	    
+		 
+		 
+		//构建一个默认的编辑器
+		var index = layedit.build('description',{
+			height: 130, //设置编辑器高度
+			uploadImage: '' //文件上传接口
+		}); 
+		
+		
+		var i = layedit.build('about_instructor',{
+			height: 130, //设置编辑器高度
+			uploadImage: '' //文件上传接口
+		}); 
+		
+		
 	    
 	    upload.render({
 		    elem: '#upload'
 		    ,auto: false
+		    ,field:'cover'
 		    ,choose: function(obj){
 		    	//预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
 		        obj.preview(function(index, file, result){
@@ -74,10 +91,33 @@
 		    }
 		});
 	    
+	    
+	    form.verify({
+	    	description: function(value) {
+	    		if(layedit.getContent(index) === ''){
+	    			return '请输入课程描述';
+	    		}
+	    		// 将数据同步到textarea
+	    		layedit.sync(index);
+                
+            },
+            cover: function(value) {
+            	if($("#img_url").attr("src") == "/img/back.jpg"){
+            		return '请上传封面图';
+            	}
+            },
+            about_instructor: function(value) {
+	    		if(layedit.getContent(i) === ''){
+	    			return '请输入讲师介绍';
+	    		}
+	    		// 将数据同步到textarea
+	    		layedit.sync(i);
+                
+            }
+        });
+	    
 	    form.on('submit(save)', function (data) {
-	    	
 	    	var formData = new FormData($( "#seriesForm")[0]); 
-			
 			$.ajax({
 				type : "post",
 				url : "/series/saveOrUpdate",

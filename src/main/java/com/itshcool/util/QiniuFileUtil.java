@@ -46,6 +46,8 @@ public class QiniuFileUtil {
 			String token = auth.uploadToken(PropKit.get("bucketName"));
 			Response r = uploadManager.put(file.getFile().getAbsolutePath(), fileName, token);
 			if (r.isOK()) {
+				// 删除文件
+				file.getFile().delete();
 				System.out.println("文件上传成功");
 			}
 		}

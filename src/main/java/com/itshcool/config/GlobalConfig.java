@@ -41,6 +41,8 @@ public class GlobalConfig extends JFinalConfig{
 		me.setViewType(ViewType.JFINAL_TEMPLATE);
 		// 初始化配置文件
 		PropKit.use("config.properties"); 
+		// 设置文件上传路径
+		me.setBaseUploadPath(PropKit.get("baseUploadPath"));
 	}
 
 	

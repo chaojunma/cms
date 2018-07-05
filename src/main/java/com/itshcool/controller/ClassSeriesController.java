@@ -41,7 +41,7 @@ public class ClassSeriesController extends Controller{
 	 */
 	@Before(LogInterceptor.class)
 	public void saveOrUpdate() throws Exception{
-		UploadFile file = getFile();
+		UploadFile file = getFile("cover");
 		ClassSeries series = getModel(ClassSeries.class, "");
 		if(file != null) {
 			String cover = QiniuFileUtil.upload(file);
