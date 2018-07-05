@@ -68,13 +68,19 @@
 		//构建一个默认的编辑器
 		var index = layedit.build('description',{
 			height: 130, //设置编辑器高度
-			uploadImage: '' //文件上传接口
+			uploadImage:  {
+				url: '/upload', // 上传接口
+				type: 'post'
+			}
 		}); 
 		
 		
 		var i = layedit.build('about_instructor',{
 			height: 130, //设置编辑器高度
-			uploadImage: '' //文件上传接口
+			uploadImage:  {
+				url: '/upload', // 上传接口
+				type: 'post'
+			}
 		}); 
 		
 		

@@ -28,7 +28,7 @@ public class LogInterceptor implements Interceptor{
 			log.set("level", "info");
 			//操作结果
 			String result = ((JsonRender)inv.getController().getRender()).getJsonText();
-			result = result.replaceAll("\"data\":.*,", "");
+			result = result.replaceAll("\"data\":null,", "");
 			log.set("result", result);
 		} catch (Exception e) {
 			inv.getController().renderJson(new Result(ResultCode.SERVER_ERROR));
