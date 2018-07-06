@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xml:lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>课程分类</title>
+<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+</head>
+<body style="padding-left: 10px; padding-right: 10px;">
+	<fieldset id="search" style="border: 1px dashed lightgray;">
+		<legend>查询条件</legend>
+		<form id="formSearch" class="layui-form"
+			style="line-height: 60px; height: 60px;">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="key" placeholder="分类名称">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">创建时间</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="createtime">
+					</div>
+				</div>
+			</div>
+		</form>
+	</fieldset>
+	<div class="layui-col-md12" style="margin-top: 10px;">
+		<div class="layui-row">
+			<div class="layui-col-md3">
+				<button class="layui-btn layui-btn-small search" data-type="search">
+					<i class="layui-icon">&#x1002;</i>查询
+				</button>
+				<button class="layui-btn layui-btn-small add" data-type="add">
+					<i class="layui-icon">&#xe654;</i>新增
+				</button>
+			</div>
+		</div>
+		<div class="layui-col-md12 box">
+			<table id="table" class="layui-table" lay-filter="test">
+				
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript" src="/plugins/layui/layui.js"></script>
+	<script type="text/javascript">
+		var $, form, table, layer, laydate;
+		// 创建时间
+		var createTime;
+		layui
+				.use(
+						[ 'laydate', 'table', 'layer', 'form' ],
+						function() {
+							form = layui.form;
+							$ = layui.$;
+							//引入弹出层控件
+							layer = layui.layer;
+							// 引用时间插件
+							laydate = layui.laydate;
+							laydate.render({
+								elem : '#createtime',
+								theme : 'molv',
+								done : function(value, date) {
+									//当时间值变换时，触发该事件
+									createTime = value;
+									// 调用重新加载
+									reload();
+								}
+							});
+							//引入表格
+							table = layui.table;
+							table.render({
+										elem : '#table',
+										url : '/classify/list',
+										limit : 10,
+										width : 634,
+										cols : [ [
+												{
+													checkbox : true,
+													fixed : true
+												},
+												{
+													field : 'id',
+													title : 'ID',
+													width : 80,
+													align : 'center'
+												},
+												{
+													field : 'name',
+													title : '名称',
+													width : 100,
+													align : 'center',
+													edit : 'text'
+												},
+												{
+													field : 'create_time',
+													title : '创建时间',
+													width : 200,
+													align : 'center'
+												},
+												{
+													field : 'right',
+													title : '操作',
+													width : 200,
+													align : 'center',
+													templet : '<div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a></div>'
+												} ] ],
+										id : 'classifyList',
+										page : true
+									});
+
+							// 点击查询
+							$('.search').on('click', function() {
+								// 调用重新加载
+								reload();
+							})
+
+							// 新增
+							$('.add').on('click', function() {
+								var dataBak = [];
+								var datas =  table.cache.classifyList;
+								for(var i=0;i<datas.length;i++){
+									dataBak.push(datas[i]);
+								}
+								dataBak.push({
+									"id":"",
+									"name":"点击此处修改",
+									"create_time":"",
+									"right":""
+								});
+								
+								
+								
+								table.reload('classifyList',{
+									data:dataBak,
+									url:""
+								});
+							})
+
+							//监听操作按钮
+							table.on('tool(test)', function(row) {
+								var data = row.data;
+								if (row.event === 'del') { // 删除
+									layer.confirm('确认删除?', {
+										icon : 3,
+										title : '提示',
+										btnAlign : 'c',
+										yes : function(index) {
+											layer.close(index);
+											if(data.id != ''){
+												deleteById(data.id);
+											} else {
+												reload();
+											}
+										}
+									})
+								}
+							});
+
+							//监听单元格编辑
+							table.on('edit(test)', function(obj) {
+								var value = obj.value //得到修改后的值
+								, data = obj.data //得到所在行所有键值
+								, field = obj.field; //得到字段
+								$.ajax({
+									type : "post",
+									url : "/classify/saveOrUpdate",
+									data : {
+										id : data.id,
+										name : value
+									},
+									dataType : "json",
+									async : false,
+									success : function(data) {
+										layer.msg('保存成功');
+										// 重新加载
+										reload();
+									}// end success
+								});//ajax end
+							});
+
+						});
+
+		// 重新加载
+		function reload() {
+			table.reload('classifyList', {
+				where : {
+					name : $("#key").val(),
+					createTime : createTime
+				},
+				url : '/classify/list'
+			});
+		}
+
+		// 删除数据
+		function deleteById(id) {
+			$.ajax({
+				type : "post",
+				url : "/classify/delete",
+				data : {
+					id : id
+				},
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					// 重新加载
+					reload();
+				}// end success
+			});//ajax end
+		}
+	</script>
+
+</body>
+</html>

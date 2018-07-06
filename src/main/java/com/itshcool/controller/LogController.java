@@ -24,7 +24,7 @@ public class LogController extends Controller{
 	public void list(){
 		LogQueryParam param = getBean(LogQueryParam.class, "");
 		Page<SysLog> data = logService.list(param);
-		PageResult<SysLog> result = new PageResult<>(data.getTotalRow(), data.getList());
+		PageResult<SysLog> result = new PageResult<>(data);
 		renderJson(result);
 	}
 }

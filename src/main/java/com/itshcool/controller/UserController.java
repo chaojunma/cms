@@ -27,7 +27,7 @@ public class UserController extends Controller{
 	public void list(){
 		UserQueryParam param = getBean(UserQueryParam.class, "");
 		Page<UserInfo> data = userService.list(param);
-		PageResult<UserInfo> result = new PageResult<>(data.getTotalRow(), data.getList());
+		PageResult<UserInfo> result = new PageResult<>(data);
 		renderJson(result);
 	}
 	

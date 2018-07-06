@@ -34,6 +34,7 @@ public class LogInterceptor implements Interceptor{
 			inv.getController().renderJson(new Result(ResultCode.SERVER_ERROR));
 			log.set("result", e.getMessage());
 			log.set("level", "error");
+			e.printStackTrace();
 		}
 		// 保存log信息
 		log.save();

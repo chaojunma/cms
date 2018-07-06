@@ -30,7 +30,7 @@ public class ClassSeriesController extends Controller{
 	public void list(){
 		SeriesQueryParam param = getBean(SeriesQueryParam.class, "");
 		Page<ClassSeries> data = seriesService.list(param);
-		PageResult<ClassSeries> result = new PageResult<>(data.getTotalRow(), data.getList());
+		PageResult<ClassSeries> result = new PageResult<>(data);
 		renderJson(result);
 	}
 	
@@ -59,6 +59,7 @@ public class ClassSeriesController extends Controller{
 	/**
 	 * 删除数据
 	 */
+	@Before(LogInterceptor.class)
 	public void delete(){
 		seriesService.deleteById(getParaToInt("id"));
 		renderJson(new Result());
@@ -67,6 +68,7 @@ public class ClassSeriesController extends Controller{
 	/**
 	 * 批量删除
 	 */
+	@Before(LogInterceptor.class)
 	public void batchDelete(){
 		String[] ids = getParaValues("ids[]");
 		seriesService.batchDelete(ids);

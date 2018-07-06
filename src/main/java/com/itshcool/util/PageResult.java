@@ -1,6 +1,7 @@
 package com.itshcool.util;
 
 import java.util.List;
+import com.jfinal.plugin.activerecord.Page;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +19,10 @@ public class PageResult<T> {
 	private List<T> data;
 	
 	
-	public PageResult(Integer count, List<T> data) {
+	public PageResult(Page<T> data) {
 		this.code = ResultCode.PAGE_SUCCESS.getCode();
 		this.msg = ResultCode.PAGE_SUCCESS.getMessage();
-		this.count = count;
-		this.data =data;
+		this.count = data.getTotalRow();
+		this.data =data.getList();
 	}
 }
