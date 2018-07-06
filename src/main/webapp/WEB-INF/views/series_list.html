@@ -170,7 +170,7 @@
 				id:'detail',
 				skin:'layui-layer-molv',
 				type:2,
-				content:'/jump/series_form',
+				content:'/series_form',
 				area:['750px','520px'],
 				title:title,
 				closeBtn:2,
@@ -195,6 +195,11 @@
 		    body.find('#img_url').attr('src',prefix + data.cover);
 		    body.find('#instructor').val(data.instructor);
 		    body.find('#about_instructor').val(data.about_instructor);
+		    body.find('#classify_id').find("option").each(function(){
+		    	if($(this).val() == data.classify_id){
+		    		$(this).attr("selected", true);
+		    	}
+		    })
 		}
 		
 		// 删除数据

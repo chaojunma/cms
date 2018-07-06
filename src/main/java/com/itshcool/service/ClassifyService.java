@@ -1,5 +1,6 @@
 package com.itshcool.service;
 
+import java.util.List;
 import com.itshcool.model.Classify;
 import com.itshcool.param.ClassifyQueryParam;
 import com.jfinal.kit.Kv;
@@ -23,6 +24,15 @@ public class ClassifyService {
     	SqlPara sqlPara = Db.getSqlPara("classify.findByPage", para);
     	return dao.paginate(param.getPage(), param.getLimit(), sqlPara);
     }
+	
+	
+	/**
+	 * 查询全部
+	 */
+	public List<Classify> findAll(){
+		return dao.find("select * from classify");
+	}
+	
 	
 	/**
 	 * 根据主键ID删除

@@ -10,6 +10,19 @@
 	<form class="layui-form" id="seriesForm" enctype="multipart/form-data">
 		<input type="text" id="id" name="id" hidden="hidden">
 		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">课程标签</label>
+		        <div class="layui-input-inline">
+		           <select id="classify_id" lay-verify="classify_id" name="classify_id" lay-search="">
+		           		<option value="">请选择</option>
+		           		#for(item : data)
+		           			<option value="#(item.id)">#(item.name)</option>
+		           		#end
+		            </select>
+		        </div>
+			</div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label">系列标题</label>
 			<div class="layui-input-block">
 				<input type="text" id="title" name="title" autocomplete="off"
@@ -24,7 +37,7 @@
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-inline">
-				<label class="layui-form-label" style="margin-top: 40px;">封面图：</label>
+				<label class="layui-form-label" style="margin-top: 40px;">封面图</label>
 				<label class="layui-form-label">
 				 <img class="layui-upload-img" width="160px" height="120px" id="img_url" src="/img/back.jpg" lay-verify="cover"/>
 				</label>
@@ -99,6 +112,11 @@
 	    
 	    
 	    form.verify({
+	    	classify_id: function(value) {
+	    		if(value === ''){
+	    			return '请选择课程标签';
+	    		}
+	    	},
 	    	description: function(value) {
 	    		if(layedit.getContent(index) === ''){
 	    			return '请输入课程描述';
