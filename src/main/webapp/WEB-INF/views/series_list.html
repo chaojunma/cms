@@ -4,10 +4,13 @@
 	<meta charset="UTF-8">
 	<title>课程系列</title>
 	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+	<style type="text/css">
+		body{overflow-y: scroll;}
+	</style>
 	<!-- 操作模板 -->
 	<script type="text/html" id="lockT">
-		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
-		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+		<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 </head>
 <body style="padding-left: 10px;padding-right: 10px;">
@@ -30,9 +33,9 @@
 		    </div>
 		</form>
 	</fieldset>
-	<div class="layui-col-md12" style="margin-top: 10px;">
+	<div class="layui-col-md12" style="margin-top: 10px">
 		<div class="layui-row">
-			<div class="layui-col-md3">
+			<div class="layui-col-md6">
 				<button class="layui-btn layui-btn-small search" data-type="search">
 				  <i class="layui-icon">&#x1002;</i>查询
 				</button>
@@ -77,14 +80,14 @@
 				url:'/series/list',
 				limit:10,
 				cols:[[
-					{checkbox: true, fixed: true},
-					{field:'id',title:'ID', width:70,align:'center'},
-					{field:'title',title:'标题', width:200,align:'center'},
-					{field:'description',title:'描述', width:300,align:'center'},
-					{field:'instructor',title:'讲师', width:100,align:'center'},
-					{field:'pv',title:'浏览量', width:100,align:'center'},
-					{field:'create_time',title:'创建时间', width:200,align:'center'},
-					{field:'right',title:'操作', width:150, align:'center',style:"margin-right:0px;", templet: '#lockT'}
+					{checkbox: true, fixed: true,width:'4%'},
+					{field:'id',title:'ID', align:'center',width:'8%'},
+					{field:'title',title:'标题', align:'center',width:'15%'},
+					{field:'description',title:'描述',align:'center'},
+					{field:'instructor',title:'讲师', align:'center',width:'10%'},
+					{field:'pv',title:'浏览量',align:'center',width:'10%'},
+					{field:'create_time',title:'创建时间',align:'center',width:'15%'},
+					{field:'right',title:'操作', align:'center',style:"margin-right:0px;", templet: '#lockT'}
 				]],
 				id:'seriesList',
 				page:true

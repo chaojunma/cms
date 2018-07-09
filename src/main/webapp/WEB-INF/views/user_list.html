@@ -4,12 +4,18 @@
 	<meta charset="UTF-8">
 	<title>员工列表</title>
 	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+	<style type="text/css">
+		body{overflow-y: scroll;}
+	</style>
 	<!-- 操作模板 -->
+	<script type="text/html" id="handleT">
+		<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
+	
 	<script type="text/html" id="lockT">
-		<input type="checkbox" name="lock" data="{{d.id}}" value="{{d.is_lock}}" title="{{ d.is_lock == 0 ? '启用' : '锁定' }}" {{ d.is_lock == 0 ? 'checked' : '' }} lay-filter="lockBox"> 
-		<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
-		<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+	<input type="checkbox" name="lock" data="{{d.id}}" value="{{d.is_lock}}" title="{{ d.is_lock == 0 ? '启用' : '锁定' }}" {{ d.is_lock == 0 ? 'checked' : '' }} lay-filter="lockBox"> 
 	</script>
 </head>
 <body style="padding-left: 10px;padding-right: 10px;">
@@ -85,15 +91,15 @@
 				url:'/user/list',
 				limit: 10,
 				cols:[[
-					{checkbox: true, fixed: true},
-					{field:'id',title:'ID', minWidth:70,align:'center'},
-					{field:'user_name',title:'用户名', width:120,align:'center'},
-					{field:'email',title:'邮箱', width:150,align:'center'},
-					{field:'phone',title:'手机号', width:120,align:'center'},
-					{field:'is_lock',title:'状态',templet:'<div>{{d.is_lock===0?"启用":"锁定"}}</div>', width:100,align:'center'},
-					{field:'online',title:'是否在线',templet:'<div>{{d.online===1?"在线":"离线"}}</div>', width:100,align:'center'},
-					{field:'create_time',title:'创建时间', width:180,align:'center'},
-					{fixed:'right', title:'操作', width:300, align:'center',style:"margin-right:0px;", templet: '#lockT'}
+					{checkbox: true, fixed: true,width:'4%'},
+					{field:'id',title:'ID', width:'5%',align:'center'},
+					{field:'user_name',title:'用户名', width:'10%',align:'center'},
+					{field:'email',title:'邮箱',align:'center'},
+					{field:'phone',title:'手机号',align:'center'},
+					{field:'is_lock',title:'状态',templet:'#lockT', width:'10%',align:'center'},
+					{field:'online',title:'是否在线',templet:'<div>{{d.online===1?"在线":"离线"}}</div>',align:'center'},
+					{field:'create_time',title:'创建时间',width:'15%',align:'center'},
+					{fixed:'right', title:'操作', align:'center', templet: '#handleT'}
 				]],
 				page:true,
 				id:'userList'

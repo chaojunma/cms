@@ -4,6 +4,9 @@
 	<meta charset="UTF-8">
 	<title>日志列表</title>
 	<link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all" />
+	<style type="text/css">
+		body{overflow-y: scroll;}
+	</style>
 </head>
 <body style="padding-left: 10px;padding-right: 10px;">
 	<fieldset id="search" style="border: 1px dashed lightgray;">
@@ -79,13 +82,13 @@
 				limit:10,
 				cols:[[
 					{checkbox: true, fixed: true},
-					{field:'id',title:'ID', width:80,align:'center'},
-					{field:'user_name',title:'用户名称', width:100,align:'center'},
-					{field:'url',title:'请求地址', width:150,align:'center'},
-					{field:'params',title:'请求参数', width:280,align:'center'},
-					{field:'level',title:'日志级别', width:100,align:'center'},
-					{field:'result',title:'返回结果', width:250,align:'center'},
-					{field:'ip',title:'请求IP', width:150,align:'center'}
+					{field:'id',title:'ID',align:'center',width:'5%'},
+					{field:'user_name',title:'用户名称',align:'center',width:'10%'},
+					{field:'url',title:'请求地址',align:'center',width:'12%'},
+					{field:'params',title:'请求参数',align:'center'},
+					{field:'level',title:'日志级别',align:'center',width:'8%'},
+					{field:'result',title:'返回结果',align:'center'},
+					{field:'ip',title:'请求IP',align:'center',width:'12%'}
 				]],
 				id:'logList',
 				page:true
