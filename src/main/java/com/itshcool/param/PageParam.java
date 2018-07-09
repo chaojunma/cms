@@ -16,4 +16,15 @@ public class PageParam {
 	// 默认降序排序
 	private String order = "desc";
 	
+	// 关键字
+	private String key;
+	
+	// 创建时间
+	private String createTime;
+	
+	// 日志等级
+	private Integer level;
+	
+	// 用户是否锁定
+	private Integer isLock;
 }

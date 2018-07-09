@@ -3,7 +3,7 @@ package com.itshcool.controller;
 import com.itshcool.annotation.JAction;
 import com.itshcool.interceptor.LogInterceptor;
 import com.itshcool.model.UserInfo;
-import com.itshcool.param.UserQueryParam;
+import com.itshcool.param.PageParam;
 import com.itshcool.service.UserService;
 import com.itshcool.util.PageResult;
 import com.itshcool.util.Result;
@@ -25,7 +25,7 @@ public class UserController extends Controller{
 	 * 用户分页查询
 	 */
 	public void list(){
-		UserQueryParam param = getBean(UserQueryParam.class, "");
+		PageParam param = getBean(PageParam.class, "");
 		Page<UserInfo> data = userService.list(param);
 		PageResult<UserInfo> result = new PageResult<>(data);
 		renderJson(result);

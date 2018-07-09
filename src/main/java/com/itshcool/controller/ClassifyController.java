@@ -3,7 +3,7 @@ package com.itshcool.controller;
 import com.itshcool.annotation.JAction;
 import com.itshcool.interceptor.LogInterceptor;
 import com.itshcool.model.Classify;
-import com.itshcool.param.ClassifyQueryParam;
+import com.itshcool.param.PageParam;
 import com.itshcool.service.ClassifyService;
 import com.itshcool.util.PageResult;
 import com.itshcool.util.Result;
@@ -25,7 +25,7 @@ public class ClassifyController extends Controller{
 	 * 课程分类分页查询
 	 */
 	public void list(){
-		ClassifyQueryParam param = getBean(ClassifyQueryParam.class, "");
+		PageParam param = getBean(PageParam.class, "");
 		Page<Classify> data = classifyService.list(param);
 		PageResult<Classify> result = new PageResult<>(data);
 		renderJson(result);

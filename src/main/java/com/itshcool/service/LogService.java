@@ -1,7 +1,7 @@
 package com.itshcool.service;
 
 import com.itshcool.model.SysLog;
-import com.itshcool.param.LogQueryParam;
+import com.itshcool.param.PageParam;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -16,7 +16,7 @@ public class LogService {
 	 * @param param
 	 * @return
 	 */
-	public Page<SysLog> list(LogQueryParam param){
+	public Page<SysLog> list(PageParam param){
 		Kv para = Kv.by("key", param.getKey())
 								.set("order", param.getOrder())
 								.set("createTime", param.getCreateTime())

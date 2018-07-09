@@ -1,7 +1,7 @@
 package com.itshcool.service;
 
 import com.itshcool.model.ClassSeries;
-import com.itshcool.param.SeriesQueryParam;
+import com.itshcool.param.PageParam;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -17,7 +17,7 @@ public class SeriesService {
 	 * @param param
 	 * @return
 	 */
-	public Page<ClassSeries> list(SeriesQueryParam param){
+	public Page<ClassSeries> list(PageParam param){
     	Kv para = Kv.by("key", param.getKey())
     			                .set("order", param.getOrder())
     			                .set("createTime", param.getCreateTime());

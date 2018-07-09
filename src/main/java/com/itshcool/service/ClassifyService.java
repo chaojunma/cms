@@ -2,7 +2,7 @@ package com.itshcool.service;
 
 import java.util.List;
 import com.itshcool.model.Classify;
-import com.itshcool.param.ClassifyQueryParam;
+import com.itshcool.param.PageParam;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -17,8 +17,8 @@ public class ClassifyService {
 	 * @param param
 	 * @return
 	 */
-	public Page<Classify> list(ClassifyQueryParam param){
-    	Kv para = Kv.by("name", param.getName())
+	public Page<Classify> list(PageParam param){
+    	Kv para = Kv.by("name", param.getKey())
     			                .set("order", param.getOrder())
     			                .set("createTime", param.getCreateTime());
     	SqlPara sqlPara = Db.getSqlPara("classify.findByPage", para);

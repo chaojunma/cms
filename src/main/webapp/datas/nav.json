@@ -6,7 +6,7 @@
 		"children": [
 			{
 				"title": "用户列表",
-				"icon": "&#xe641;",
+				"icon": "&#xe612;",
 				"href": "/jump/user_list"
 			}
 		]
@@ -37,6 +37,11 @@
 				"title": "课程系列",
 				"icon": "&#xe638;",
 				"href": "/jump/series_list"
+			},
+			{
+				"title": "课程列表",
+				"icon": "&#xe641;",
+				"href": "/jump/class_list"
 			}
 		]
 	}

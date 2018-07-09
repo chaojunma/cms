@@ -2,7 +2,7 @@ package com.itshcool.controller;
 
 import com.itshcool.annotation.JAction;
 import com.itshcool.model.SysLog;
-import com.itshcool.param.LogQueryParam;
+import com.itshcool.param.PageParam;
 import com.itshcool.service.LogService;
 import com.itshcool.util.PageResult;
 import com.jfinal.core.Controller;
@@ -22,7 +22,7 @@ public class LogController extends Controller{
 	 * 日志列表
 	 */
 	public void list(){
-		LogQueryParam param = getBean(LogQueryParam.class, "");
+		PageParam param = getBean(PageParam.class, "");
 		Page<SysLog> data = logService.list(param);
 		PageResult<SysLog> result = new PageResult<>(data);
 		renderJson(result);
