@@ -18,9 +18,10 @@ public class ClassService {
 	 */
 	public Page<ClassInfo> list(PageParam param){
     	Kv para = Kv.by("key", param.getKey())
-    			                .set("createTime", param.getCreateTime());
+    			                .set("createTime", param.getCreateTime())
+    			                .set("order", param.getOrder());
     	SqlPara sqlPara = Db.getSqlPara("class.findByPage", para);
     	return dao.paginate(param.getPage(), param.getLimit(), sqlPara);
     }
-
+	
 }

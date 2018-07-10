@@ -12,8 +12,7 @@
 		#if(createTime??)
 			AND c.create_time>=#para(createTime)
 		#end
-			GROUP BY c.series_id
-		ORDER BY c.id #(order)
+		ORDER BY c.id,c.series_id #(order)
 	#end
 	
 #end

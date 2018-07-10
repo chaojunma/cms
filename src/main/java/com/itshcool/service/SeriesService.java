@@ -1,5 +1,6 @@
 package com.itshcool.service;
 
+import java.util.List;
 import com.itshcool.model.ClassSeries;
 import com.itshcool.param.PageParam;
 import com.jfinal.kit.Kv;
@@ -24,6 +25,15 @@ public class SeriesService {
     	SqlPara sqlPara = Db.getSqlPara("series.findByPage", para);
     	return dao.paginate(param.getPage(), param.getLimit(), sqlPara);
     }
+	
+	
+	/**
+	 * 查询全部
+	 * @return
+	 */
+	public List<ClassSeries> findAll(){
+		return dao.find("select * from class_series");
+	}
 	
 	
 	/**

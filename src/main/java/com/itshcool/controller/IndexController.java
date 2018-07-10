@@ -1,11 +1,8 @@
 package com.itshcool.controller;
 
-import java.util.List;
 import com.itshcool.annotation.JAction;
 import com.itshcool.constant.Constants;
-import com.itshcool.model.Classify;
 import com.itshcool.model.UserInfo;
-import com.itshcool.service.ClassifyService;
 import com.itshcool.service.UserService;
 import com.itshcool.util.Result;
 import com.itshcool.util.ResultCode;
@@ -25,8 +22,6 @@ import com.jfinal.core.Controller;
 public class IndexController extends Controller{
 	
 	private static final UserService userService = new UserService();
-	
-	private static final ClassifyService classifyService = new ClassifyService();
 	
 	/**
 	 * 跳转登录页
@@ -73,16 +68,6 @@ public class IndexController extends Controller{
 		// 清空session
 		getSession().invalidate();
 		redirect("/");
-	}
-	
-	
-	/**
-	 * 跳转系列表单页
-	 */
-	public void series_form(){
-		List<Classify> data	= classifyService.findAll();
-		setAttr("data", data);
-		render("series_form.html");
 	}
 	
 }
