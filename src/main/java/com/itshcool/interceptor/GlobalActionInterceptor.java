@@ -25,7 +25,7 @@ public class GlobalActionInterceptor implements Interceptor{
 			controller.setAttr("message", "用户未登录");
 			// controller.renderJson();
 			// 跳转到登录页
-			controller.render("login.html");
+			controller.redirect("/");
 		} else {
 			inv.invoke();
 		}

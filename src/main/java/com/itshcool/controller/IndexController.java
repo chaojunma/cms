@@ -67,6 +67,16 @@ public class IndexController extends Controller{
 	
 	
 	/**
+	 * 用户注销
+	 */
+	public void logout(){
+		// 清空session
+		getSession().invalidate();
+		redirect("/");
+	}
+	
+	
+	/**
 	 * 跳转系列表单页
 	 */
 	public void series_form(){

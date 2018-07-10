@@ -23,7 +23,7 @@ public class PageParam {
 	private String createTime;
 	
 	// 日志等级
-	private Integer level;
+	private String level;
 	
 	// 用户是否锁定
 	private Integer isLock;
