@@ -3,6 +3,7 @@ package com.itshcool.config;
 import java.sql.Connection;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
+import com.itshcool.handler.XssHandler;
 import com.itshcool.interceptor.GlobalActionInterceptor;
 import com.itshcool.pluigin.ScanTablePluigin;
 import com.itshcool.routes.AutoBindRoutes;
@@ -13,6 +14,7 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
+//import com.jfinal.ext.handler.FakeStaticHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
@@ -108,7 +110,12 @@ public class GlobalConfig extends JFinalConfig{
 	 */
 	@Override
 	public void configHandler(Handlers me) {
-		me.add(new ContextPathHandler("contextPath"));
+		// 防Xss注入
+		me.add(new XssHandler());
+		//伪静态，请求的后缀名
+		//me.add(new FakeStaticHandler(".html"));
+		//获得项目路径
+		me.add(new ContextPathHandler("ctx"));
 	}
 
 	

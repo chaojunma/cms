@@ -127,7 +127,7 @@
 												{checkbox: true, fixed: true},
 												{field:'id',title:'ID',align:'center',width:'5%'},
 												{field:'title',title:'课程标题',edit : 'text'},
-												{field:'url',title:'URL',edit : 'text',width:'20%'},
+												{field:'url',title:'课程链接',edit : 'text',width:'20%'},
 												{field:'stitle',title:'所属系列',width:'20%'},
 												{field:'create_time',title:'创建时间',align:'center',width:'15%'},
 												{field : 'right',title : '操作',align : 'center',width:'10%',templet : '<div class="layui-table-cell laytable-cell-1-8"><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a></div>'} 
@@ -174,6 +174,7 @@
 									dataType : "json",
 									success : function(data) {
 										if(data.code == 200){
+											$("#reset").trigger("click");
 											layer.close(index);	
 											reload();
 										} else {
